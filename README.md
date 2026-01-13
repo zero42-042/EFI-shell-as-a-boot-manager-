@@ -18,8 +18,9 @@ You don’t even need PXE ROM.
 ## Why this repository exists
 
 Over time, boot chains became unnecessarily complex:
-
+```text
 Firmware → shim → GRUB → kernel Firmware → PXE ROM → iPXE → installer Firmware → Ventoy → ISO → bootloader → kernel
+```
 
 But UEFI already gives us everything we need.
 
@@ -39,9 +40,15 @@ This repo exists to remind people:
 ## Core idea
 
 Use **EFI Shell** as a minimal, explicit boot manager.
-
-UEFI firmware ↓ EFI Shell ↓ Choose what to run: ├─ Local EFI application (Linux EFIstub, WinPE, tools) └─ iPXE.efi (network boot via HTTP / PXE / iSCSI)
-
+```text
+UEFI firmware 
+      ↓ 
+  EFI Shell
+      ↓ 
+Choose what to run: 
+├─ Local EFI application (Linux EFIstub, WinPE, tools) 
+└─ iPXE.efi (network boot via HTTP / PXE / iSCSI)
+```
 No magic. No hidden layers.
 
 ---
