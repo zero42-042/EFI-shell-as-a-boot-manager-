@@ -74,7 +74,7 @@ It is an official UEFI reference application.
 
 ## Example ESP layout
 
-```text
+
 ESP (FAT32)
 └─ EFI/
    ├─ BOOT/
@@ -194,7 +194,146 @@ Linux EFIstub
 
 systemd-boot (for comparison)
 
+---
 
+## Why not GRUB?
+
+This repository is **not anti-GRUB**.  
+GRUB is a powerful and mature bootloader.
+
+However, its design goals are fundamentally different from what is explored here.
+
+### GRUB is designed to:
+- abstract hardware differences
+- support many filesystems
+- provide scripting and automation
+- work identically across BIOS and UEFI
+- act as a universal pre-OS environment
+
+This comes at a cost:
+- complex configuration language
+- non-trivial runtime logic
+- filesystem drivers and probing
+- persistent bootloader state
+- larger attack surface
+
+For users who want:
+- full automation
+- menu-driven multiboot
+- encrypted disks
+- complex storage setups
+
+**GRUB is the correct choice.**
+
+This repository explores what happens when you *intentionally remove* that layer.
+
+---
+
+## Why Secure Boot does not work out of the box
+
+EFI Shell and direct EFI execution intentionally avoid Secure Boot assumptions.
+
+### Reasons:
+
+- EFI Shell is often **unsigned**
+- Direct EFIstub kernels are usually **not signed**
+- iPXE custom builds are unsigned by default
+- No shim layer is present to mediate trust
+
+Secure Boot expects:
+
+Firmware → Microsoft-signed shim → signed bootloader → signed kernel
+
+This repository uses:
+
+Firmware → EFI Shell → arbitrary EFI payload
+
+These models are incompatible by default.
+
+---
+
+## Can Secure Boot be used anyway?
+
+Yes — but **only with explicit user action**.
+
+Possible approaches:
+- Enroll custom keys (Machine Owner Keys)
+- Sign EFI Shell, kernels, and tools manually
+- Use custom firmware keys
+- Disable Microsoft trust chain entirely
+
+This is:
+- intentional
+- explicit
+- user-controlled
+
+But **not beginner-friendly**.
+
+Secure Boot is about policy enforcement.  
+This repository is about **operator control**.
+
+---
+
+## Why this approach is useless for some users
+
+This setup is **not universal** and does not try to be.
+
+It will be useless or inappropriate if you expect:
+- automatic OS discovery
+- graphical menus
+- unattended installs
+- consumer-friendly UX
+- vendor-supported workflows
+- “it just works” behavior
+
+It requires:
+- understanding UEFI concepts
+- manual execution or scripting
+- acceptance of explicit control
+- willingness to debug firmware behavior
+
+For many users, this is unacceptable — and that is fine.
+
+---
+
+## Who this *is* for
+
+This approach makes sense if you:
+- want to understand booting, not abstract it
+- work with rescue, lab, or test systems
+- need full control over boot paths
+- dislike opaque boot chains
+- are comfortable operating pre-OS environments
+- value simplicity over automation
+
+This is a **tool**, not a product.
+
+---
+
+## Design philosophy (explicitly stated)
+
+- No hidden state
+- No implicit automation
+- No mandatory configuration language
+- No bootloader persistence
+- No attempt to be user-friendly
+
+If something boots, it is because **you executed it**.
+
+---
+
+## Final clarification
+
+This repository does not claim that EFI Shell should replace GRUB.
+
+It demonstrates that:
+
+> **For a specific class of users,  
+> GRUB is optional, not mandatory.**
+
+EFI Shell already exists.  
+UEFI already provides the primitives.  
+This repository merely connects the dots.
 
 ---
 
