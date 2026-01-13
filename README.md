@@ -130,10 +130,12 @@ Optional automation
 
 EFI Shell supports startup.nsh:
 
+```text
 echo "1) Network boot (iPXE)"
 echo "2) Linux"
 echo "3) WinPE"
 pause
+```
 
 No configuration language.
 No parser.
