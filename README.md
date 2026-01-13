@@ -72,7 +72,7 @@ It is an official UEFI reference application.
 ---
 
 ## Example ESP layout
-
+```text
 ESP (FAT32)
 └─ EFI/
    ├─ BOOT/
@@ -83,7 +83,7 @@ ESP (FAT32)
       ├─ winpe.efi     # Windows PE
       ├─ memtest.efi
       └─ shell.nsh
-
+```
 
 ---
 
